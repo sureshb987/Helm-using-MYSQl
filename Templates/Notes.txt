@@ -1,1 +1,16 @@
 
+Thank you for installing MySQL with {{ .Chart.Name }}!
+
+Your MySQL service is up and running.
+
+To access your MySQL database:
+
+  1. Get the root password:
+     kubectl get secret --namespace {{ .Release.Namespace }} {{ include "my-app.fullname" . }}-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode
+
+  2. Connect from a pod inside the cluster:
+     mysql -h {{ include "my-app.fullname" . }}-mysql -u root -p
+
+  3. Or port-forward to access locally:
+     kubectl port-forward svc/{{ include "my-app.fullname" . }}-mysql 3306:3306
+     mysql -h 127.0.0.1 -P 3306 -u root -p
